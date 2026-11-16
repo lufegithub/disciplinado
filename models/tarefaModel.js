@@ -1,4 +1,5 @@
-const db = require('../db/mysql');
+const tarefas = [];
+let proximoId = 1;
 
 function validar({ titulo, descricao, disciplina }) {
   const erros = [];
@@ -24,49 +25,50 @@ function limpar(dados) {
   };
 }
 
-function idValido(id) {
-  const numero = Number(id);
-  return Number.isInteger(numero) && numero > 0 ? numero : null;
+function listar(filtro) {
+  if (filtro === 'pendente' || filtro === 'concluida') {
+    return tarefas.filter(t => t.status === filtro);
+  }
+  return tarefas;
 }
 
-async function listar(filtro) {
-  if (filtro === 'pendente' || filtro === 'concluida') return db.listar(filtro);
-  return db.listar();
+function buscarPorId(id) {
+  return tarefas.find(t => t.id === Number(id));
 }
 
-async function buscarPorId(id) {
-  const numero = idValido(id);
-  return numero ? db.buscarPorId(numero) : null;
-}
-
-async function criar(dados) {
+function criar(dados) {
   const campos = limpar(dados);
   const erros = validar(campos);
   if (erros.length) return { erros, dados: campos };
 
-  const tarefa = await db.inserir(campos);
+  const tarefa = { id: proximoId++, ...campos, status: 'pendente' };
+  tarefas.push(tarefa);
   return { tarefa };
 }
 
-async function editar(id, dados) {
-  const tarefa = await buscarPorId(id);
+function editar(id, dados) {
+  const tarefa = buscarPorId(id);
   if (!tarefa) return { erros: ['Tarefa não encontrada.'] };
 
   const campos = limpar(dados);
   const erros = validar(campos);
   if (erros.length) return { erros, dados: { ...tarefa, ...campos } };
 
-  return { tarefa: await db.atualizar(tarefa.id, campos) };
+  Object.assign(tarefa, campos);
+  return { tarefa };
 }
 
-async function concluir(id) {
-  const numero = idValido(id);
-  return numero ? db.atualizar(numero, { status: 'concluida' }) : null;
+function concluir(id) {
+  const tarefa = buscarPorId(id);
+  if (tarefa) tarefa.status = 'concluida';
+  return tarefa;
 }
 
-async function excluir(id) {
-  const numero = idValido(id);
-  return numero ? db.remover(numero) : false;
+function excluir(id) {
+  const indice = tarefas.findIndex(t => t.id === Number(id));
+  if (indice === -1) return false;
+  tarefas.splice(indice, 1);
+  return true;
 }
 
 module.exports = { listar, buscarPorId, criar, editar, concluir, excluir };

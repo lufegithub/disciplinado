@@ -7,22 +7,19 @@
   "keywords": [
     "express",
     "ejs",
-    "mysql",
     "mvc",
     "tarefas"
   ],
   "license": "UNLICENSED",
   "scripts": {
     "start": "node --env-file-if-exists=.env app.js",
-    "dev": "node --watch --env-file-if-exists=.env app.js",
-    "db:criar": "node --env-file-if-exists=.env db/criar-banco.js"
+    "dev": "node --watch --env-file-if-exists=.env app.js"
   },
   "engines": {
     "node": ">=22.9.0"
   },
   "dependencies": {
     "ejs": "^7.0.2",
-    "express": "^5.3.0",
-    "mysql2": "^3.24.6"
+    "express": "^5.3.0"
   }
 }
