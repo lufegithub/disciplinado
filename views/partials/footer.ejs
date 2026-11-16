@@ -1,0 +1,27 @@
+  </main>
+
+  <% if (locals.aviso) { %>
+    <div class="toast <%= aviso.tipo %>" role="status" id="toast">
+      <span class="toast-icone"><%- include('icone', { nome: aviso.icone, tamanho: 18 }) %></span>
+      <span><%= aviso.texto %></span>
+      <button type="button" class="toast-fechar" aria-label="Fechar aviso" onclick="this.parentElement.remove()">
+        <%- include('icone', { nome: 'x', tamanho: 14 }) %>
+      </button>
+    </div>
+    <script>
+      (function () {
+        const url = new URL(window.location);
+        url.searchParams.delete('msg');
+        history.replaceState(null, '', url);
+
+        const toast = document.getElementById('toast');
+        setTimeout(function () {
+          if (!toast) return;
+          toast.classList.add('saindo');
+          setTimeout(function () { toast.remove(); }, 300);
+        }, 3500);
+      })();
+    </script>
+  <% } %>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<%
+  const caminhos = {
+    mais: '<path d="M12 5v14M5 12h14"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>',
+    olho: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    lapis: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    relogio: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    lista: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+    livro: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+    voltar: '<path d="M19 12H5M12 19l-7-7 7-7"/>',
+    lixeira: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+    salvar: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
+    alvo: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>'
+  };
+%><svg class="icone" viewBox="0 0 24 24" width="<%= typeof tamanho !== 'undefined' ? tamanho : 16 %>" height="<%= typeof tamanho !== 'undefined' ? tamanho : 16 %>" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><%- caminhos[nome] || '' %></svg>

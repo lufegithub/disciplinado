@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+
+<h1>Excluir tarefa</h1>
+
+<p>Tem certeza que deseja excluir a tarefa <strong><%= tarefa.titulo %></strong>?</p>
+
+<form action="/tarefas/<%= tarefa.id %>/excluir" method="POST" class="botoes">
+  <button type="submit" class="botao perigo">
+    <%- include('partials/icone', { nome: 'lixeira' }) %> Sim, excluir
+  </button>
+  <a href="/tarefas/<%= tarefa.id %>" class="link-voltar">Cancelar</a>
+</form>
+
+<%- include('partials/footer') %>

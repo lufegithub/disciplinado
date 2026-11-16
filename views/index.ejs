@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+
+<div class="topo">
+  <h1><%- include('partials/icone', { nome: 'lista', tamanho: 26 }) %> Tarefas</h1>
+  <a href="/tarefas/nova" class="botao">
+    <%- include('partials/icone', { nome: 'mais', tamanho: 18 }) %> Nova tarefa
+  </a>
+</div>
+
+<nav class="filtros">
+  <a href="/?status=pendente" class="<%= filtro === 'pendente' ? 'ativo' : '' %>">
+    <%- include('partials/icone', { nome: 'relogio' }) %> Pendentes
+  </a>
+  <a href="/?status=concluida" class="<%= filtro === 'concluida' ? 'ativo' : '' %>">
+    <%- include('partials/icone', { nome: 'check' }) %> Concluídas
+  </a>
+  <a href="/?status=todas" class="<%= filtro === 'todas' ? 'ativo' : '' %>">
+    <%- include('partials/icone', { nome: 'lista' }) %> Todas
+  </a>
+</nav>
+
+<% if (tarefas.length === 0) { %>
+  <p class="vazio">Nenhuma tarefa encontrada.</p>
+<% } else { %>
+  <div class="tabela">
+    <table>
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Disciplina</th>
+          <th>Status</th>
+          <th class="col-check"></th>
+          <th class="col-ver"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tarefas.forEach(tarefa => { %>
+          <tr>
+            <td class="titulo"><%= tarefa.titulo %></td>
+            <td><span class="disciplina"><%- include('partials/icone', { nome: 'livro', tamanho: 14 }) %> <%= tarefa.disciplina %></span></td>
+            <td>
+              <span class="status <%= tarefa.status %>">
+                <%- include('partials/icone', { nome: tarefa.status === 'pendente' ? 'relogio' : 'check', tamanho: 13 }) %>
+                <%= tarefa.status === 'pendente' ? 'Pendente' : 'Concluída' %>
+              </span>
+            </td>
+            <td class="col-check">
+              <% if (tarefa.status === 'pendente') { %>
+                <form action="/tarefas/<%= tarefa.id %>/concluir" method="POST">
+                  <button type="submit" class="marcar" title="Marcar como concluída" aria-label="Marcar como concluída">
+                    <%- include('partials/icone', { nome: 'check', tamanho: 16 }) %>
+                  </button>
+                </form>
+              <% } else { %>
+                <span class="marcar marcado" title="Concluída" aria-label="Concluída">
+                  <%- include('partials/icone', { nome: 'check', tamanho: 16 }) %>
+                </span>
+              <% } %>
+            </td>
+            <td class="col-ver">
+              <a href="/tarefas/<%= tarefa.id %>" class="ver" title="Ver detalhes" aria-label="Ver detalhes">
+                <%- include('partials/icone', { nome: 'olho', tamanho: 18 }) %>
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

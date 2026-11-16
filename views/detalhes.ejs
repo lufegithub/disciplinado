@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<h1><%= tarefa.titulo %></h1>
+
+<dl class="detalhes">
+  <dt>Descrição</dt>
+  <dd class="descricao"><%= tarefa.descricao || 'Sem descrição' %></dd>
+
+  <dt>Disciplina</dt>
+  <dd><span class="disciplina"><%- include('partials/icone', { nome: 'livro', tamanho: 14 }) %> <%= tarefa.disciplina %></span></dd>
+
+  <dt>Status</dt>
+  <dd><span class="status <%= tarefa.status %>"><%- include('partials/icone', { nome: tarefa.status === 'pendente' ? 'relogio' : 'check', tamanho: 13 }) %> <%= tarefa.status === 'pendente' ? 'Pendente' : 'Concluída' %></span></dd>
+</dl>
+
+<div class="botoes">
+  <a href="/tarefas/<%= tarefa.id %>/editar" class="botao">
+    <%- include('partials/icone', { nome: 'lapis' }) %> Editar
+  </a>
+  <% if (tarefa.status === 'pendente') { %>
+    <form action="/tarefas/<%= tarefa.id %>/concluir" method="POST">
+      <button type="submit" class="botao sucesso">
+        <%- include('partials/icone', { nome: 'check' }) %> Concluir
+      </button>
+    </form>
+  <% } %>
+  <a href="/tarefas/<%= tarefa.id %>/excluir" class="botao perigo">
+    <%- include('partials/icone', { nome: 'x' }) %> Excluir
+  </a>
+  <a href="/" class="link-voltar"><%- include('partials/icone', { nome: 'voltar' }) %> Voltar</a>
+</div>
+
+<%- include('partials/footer') %>
